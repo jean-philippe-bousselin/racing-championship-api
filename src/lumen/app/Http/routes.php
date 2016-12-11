@@ -12,15 +12,15 @@
 */
 
 $app->get('/', function () use ($app) {
-    return view('index'); 
+    return view('index');
 });
 
 $app->get('api/article','ArticleController@index');
 
-$app->get('api/article/{id}','App\Http\Controllers\ArticleController@getArticle');
+$app->get('api/article/{id}','ArticleController@getArticle');
 
-$app->post('api/article','App\Http\Controllers\ArticleController@saveArticle');
+$app->post('api/article','ArticleController@saveArticle');
 
-$app->put('api/article/{id}','App\Http\Controllers\ArticleController@updateArticle');
+$app->put('api/article/{id}','ArticleController@updateArticle');
 
-$app->delete('api/article/{id}','App\Http\Controllers\ArticleController@deleteArticle');
+$app->delete('api/article/{id}','ArticleController@deleteArticle');
