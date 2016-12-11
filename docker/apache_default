@@ -1,7 +1,7 @@
 <VirtualHost *:80>
-    DocumentRoot "/var/www/lumen/public"  # Change this line
+    DocumentRoot "/var/www/lumen/public"
 
-    <Directory "/var/www/lumen/public">   # Change this line
+    <Directory "/var/www/lumen/public">
         # Ignore the .htaccess file in this directory
         AllowOverride None
 
