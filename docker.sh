@@ -1,15 +1,23 @@
-docker run --name my-mariadb -e MYSQL_ROOT_PASSWORD=passwd -d mariadb:10.1
 
+# start mariadb container
+if [[ "$(docker ps -a | grep my-mariadb | wc -l)" > 0 ]]; then
+  docker start my-mariadb
+else
+  docker run --name my-mariadb -e MYSQL_ROOT_PASSWORD=passwd -d mariadb:10.1
+fi
+
+# start app container
 docker build -t rcm_api .
-docker run -it --link my-mariadb:mysql -d --name="rcm_api_running" -p 80:80 -v $(pwd)/src:/var/www rcm_api
-
-
+docker rm rcm_api_running
+docker run -it --link my-mariadb:mysql --name="rcm_api_running" -p 80:80 -v $(pwd)/src:/var/www rcm_api
 
 # Delete all containers
 # docker rm $(docker ps -a -q)
 # Delete all images
 # docker rmi $(docker images -q)
 
+# available env variables from mariadb container
+#
 # PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # HOSTNAME=4fee3be1fde7
 # MYSQL_PORT=tcp://172.17.0.2:3306

@@ -27,19 +27,30 @@ COPY docker/run /usr/local/bin/run
 RUN chmod +x /usr/local/bin/run
 RUN a2enmod rewrite
 
-RUN apt-get install vim
-
 # Copy project files
 COPY . /var/www
 WORKDIR /var/www
 
-# Define default command.
+# Create lumen env configuration
+RUN echo $'APP_ENV=local \n\
+APP_DEBUG=true \n\
+APP_KEY=rcm_api \n\
+DB_CONNECTION=mysql \n\
+DB_HOST=${MYSQL_PORT_3306_TCP_ADDR} \n\
+DB_PORT=${MYSQL_PORT_3306_TCP_PORT} \n\
+DB_DATABASE=rcm_api \n\
+DB_USERNAME=root \n\
+DB_PASSWORD=${MYSQL_ENV_MYSQL_ROOT_PASSWORD} \n\
+CACHE_DRIVER=memcached \n\
+QUEUE_DRIVER=sync' > src/lumen/.env
+
+# Entry point script.
 CMD ["/usr/local/bin/run"]
 
-EXPOSE 80 3306
+EXPOSE 80
 
 
-
+# Legacy script
 # git required to install composer dependencies
 # RUN apt-get install git
 # composer
