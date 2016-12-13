@@ -28,6 +28,7 @@ docker exec -it rcm_api_running bash -c "cd /var/www/lumen && php artisan migrat
 
 echo -e "\r\n\e[1m> API IS READY AND RUNNING ON 127.0.0.1 \e[21m \r\n"
 
+docker logs -f rcm_api_running
 
 # Delete all containers
 # docker rm $(docker ps -a -q)
