@@ -8,7 +8,7 @@ else
 fi
 
 # rebuild image if parameter is there
-if [[ $1 == '--rebuild' ]]; then
+if [ $1 = "--rebuild" ]; then
   echo -e "\r\n\e[1m> BUILDING API IMAGE  \e[21m \r\n"
   docker build -t rcm_api .
 fi
@@ -18,6 +18,12 @@ echo -e "\r\n\e[1m> STARTING API CONTAINER \e[21m \r\n"
 docker stop rcm_api_running
 docker rm rcm_api_running
 docker run -d -it --link my-mariadb:mysql --name="rcm_api_running" -p 80:80 -v $(pwd)/src:/var/www rcm_api
+
+echo -e "\r\n\e[1m> DOWNLOADING VENDORS... \e[21m \r\n"
+docker exec -it rcm_api_running bash -c "cd /var/www/lumen && composer install"
+
+echo -e "\r\n\e[1m> SETTING UP PERMISSIONS... \e[21m \r\n"
+docker exec -it rcm_api_running bash -c "cd /var/www/lumen/storage && chmod -R 777 logs"
 
 echo -e "\r\n\e[1m> CREATING DATABASE... \e[21m \r\n"
 docker exec -it my-mariadb mysql -u root -ppasswd -e "CREATE DATABASE IF NOT EXISTS rcm_api"

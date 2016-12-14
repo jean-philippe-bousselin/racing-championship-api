@@ -10,3 +10,6 @@ echo "error_reporting = $PHP_ERROR_REPORTING" >> /etc/php/7.0/apache2/php.ini
 echo "error_reporting = $PHP_ERROR_REPORTING" >> /etc/php/7.0/cli/php.ini
 
 source /etc/apache2/envvars && exec /usr/sbin/apache2 -DFOREGROUND
+
+# Composer
+cd /var/www/lumen && php /usr/local/bin/composer install

@@ -28,7 +28,7 @@ RUN chmod +x /usr/local/bin/run
 RUN a2enmod rewrite
 
 # Copy project files
-COPY . /var/www
+# COPY src/* /var/www
 WORKDIR /var/www
 
 # Create lumen env configuration
@@ -42,7 +42,11 @@ DB_DATABASE=rcm_api \n\
 DB_USERNAME=root \n\
 DB_PASSWORD=${MYSQL_ENV_MYSQL_ROOT_PASSWORD} \n\
 CACHE_DRIVER=memcached \n\
-QUEUE_DRIVER=sync' > src/lumen/.env
+QUEUE_DRIVER=sync' > /var/www/lumen/.env
+
+# install composer
+RUN apt-get install -y curl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Entry point script.
 CMD ["/usr/local/bin/run"]
