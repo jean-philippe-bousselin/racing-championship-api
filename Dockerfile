@@ -28,7 +28,7 @@ RUN chmod +x /usr/local/bin/run
 RUN a2enmod rewrite
 
 # Copy project files
-# COPY src/* /var/www
+COPY src/* /var/www
 WORKDIR /var/www
 
 # Create lumen env configuration
